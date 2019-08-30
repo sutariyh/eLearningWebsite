@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% block title %}{% trans 'Log In' %}{% endblock %}
+{% block content %}
+<div class="container">
+
+<div class="login">
+    <div class="login-form">
+        <form method="post" novalidate class="form-signin">
+            <h2>Log in</h2>
+            {% if form.errors %}
+                <p>{% trans 'Your username and password didn\'t match. Please try again.' %}</p>
+            {% else %}
+                <p>{% trans 'Please, use the following form to log-in:' %}</p>
+            {% endif %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="form-group">
+                {{ field.label_tag }}
+
+                {% render_field field class="form-control" %}
+
+                {% if field.help_text %}
+                  <small class="form-text text-muted">
+                    {{ field.help_text }}
+                  </small>
+                {% endif %}
+              </div>
+            {% endfor %}
+            <p><a href="{% url 'password_reset' %}">{% trans 'Forgot password ?' %}</a></p>
+            <input type="submit" class="btn btn-lg btn-primary btn-block" value="{% trans 'Log In' %}" />
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

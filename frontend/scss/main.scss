@@ -1,0 +1,230 @@
+@font-face {
+    font-family: 'Lato Regular';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato Black';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-Black.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato Black Italic';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-BlackItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato Bold';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato Bold Italic';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato Hairline';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-Hairline.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato Hairline Italic';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-HairlineItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato Italic';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-Italic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato Light';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato Light Italic';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-LightItalic.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Lato Medium';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-Medium.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Lato Medium Italic';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-MediumItalic.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Lato SemiBold';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-SemiBold.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Lato SemiBold Italic';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/Lato/Lato-SemiboldItalic.ttf') format('truetype');
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Lato Regular', Arial, sans-serif;
+    overflow-x: hidden;
+    padding-top: 70px;
+    background-color: #f8f8f8;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.avatar {
+   border-radius: 50% 50%;
+   height: 26px;
+   width: 26px;
+   float: left;
+}
+
+.navbar-default {
+    background-color: #ffffff;
+}
+
+img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+}
+
+#footer {
+    padding: 5rem 0;
+}
+
+.list-videos-content {
+    overflow-y: scroll;
+    height: 450px;
+}
+
+.is-offline {
+    a:not(.is-cached) {
+        cursor: not-allowed;
+        pointer-events: none;
+        opacity: .5;
+    }
+
+    a[href^="#"],
+    a[href^="mailto"],
+    a[href^="tel"] {
+        cursor: auto;
+        pointer-events: auto;
+        opacity: 1;
+    }
+}
+
+.is-offline form {
+    position: relative;
+    opacity: .65;
+    cursor: not-allowed;
+    pointer-events: none;
+
+    &::after {
+        content: "Offline";
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: "white";
+        background-color: #2d2d2d;
+        padding: 1rem 2rem;
+    }
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 40px;
+    border-top: 1px solid #eee;
+}
+
+.row-striped:nth-of-type(odd){
+  background-color: #efefef;
+  border-left: 4px #000000 solid;
+}
+
+.row-striped:nth-of-type(even){
+  background-color: #ffffff;
+  border-left: 4px #efefef solid;
+}
+
+.row-striped {
+    padding: 15px 0;
+}
+
+.display-4 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+.sidebar-module-inset {
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.sidebar-module {
+    padding: 15px;
+    margin: 0 -15px 15px;
+}

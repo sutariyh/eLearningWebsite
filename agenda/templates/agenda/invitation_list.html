@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+    {% trans 'Invitation' %}
+{% endblock %}
+{% block content %}
+   <div class="container">
+       {% include "partial/tabevents.html" %}
+       <ul>
+        {% for obj in object_list %}
+            <li>{{ obj.email }}</li>
+        {% endfor %}
+        </ul>
+     </div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+{% if subject %}
+   {{ subject.title }} {% trans 'courses' %}
+{% else %}
+    {% trans 'All courses' %}
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>
+        {% if subject %}
+            {{ subject.title }} {% trans 'courses' %}
+        {% else %}
+            {% trans "All courses" %}
+        {% endif %}
+    </h2>
+
+    {% include "partial/tabs.html" %}
+
+   <div class="subjects">
+       <ul id="modules" class="nav nav-pills" role="tablist">
+           <li role="presentation" class="{% if not subject %}active{% endif %}">
+               <a href="{% url 'course_list' %}">{% trans 'All' %}</a>
+           </li>
+           {% for s in subjects %}
+               <li role="presentation" class="{% if subject == s %}active{% endif %}">
+                   <a href="{% url 'course_list_subject' s.slug %}">
+{{ s.title }} <span class="badge">{{ s.total_courses }}</span>
+                   </a>
+               </li>
+           {% endfor %}
+</ul> </div>
+
+       <div class="courses row">
+           {% for course in courses %}
+               {% with subject=course.subject %}
+                   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                   <div class="panel">
+                       <div class="panel-heading">
+                           <a href="{% url 'course_detail' course.slug %}"> <h4>{{ course.title }}</h4> </a>
+                           <p>
+                               <span class="glyphicon glyphicon-user"></span> {% trans 'Instructor' %}: {{ course.owner.username }}
+                           </p>
+                      </div>
+                      <div class="panel-body">
+                       <p>
+                           <a href="{% url 'course_list_subject' subject.slug %}" class="link">{{ subject }} </a> - {{ course.total_modules }} {% trans 'modules' %}
+                       </p>
+                       </div>
+                       <div class="panel-heading">
+                           <hr/>
+                           <div class="row">
+                               <div class="col-xs-4 col-md-4">
+                                   <span class="glyphicon glyphicon-comment"></span> {{ course.total_reviews }} {% trans 'reviews' %}
+                               </div>
+                               <div class="col-xs-4 col-md-4">
+                                   <span class="glyphicon glyphicon-time"></span> {{ course.created | date:"M d" }}
+                               </div>
+                               <div class="col-xs-4 col-md-4">
+                                   {% if course.average_rating %}
+                                    <span class="glyphicon glyphicon-star"></span> {{ course.average_rating|floatformat:1  }} {% trans 'stars' %}
+                                   {% endif %}
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   </div>
+               {% endwith %}
+           {% endfor %}
+       </div>
+       <div class="footer__courses">
+           {% trans 'Courses owned by teachers.'%}
+       </div>
+</div>
+ {% endblock %}

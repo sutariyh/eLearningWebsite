@@ -1,0 +1,137 @@
+{% load staticfiles %}
+{% load flatpages %}
+{% load i18n %}
+{% load gravatar %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% trans 'elearning' %} - {% block title %} {% endblock %}</title>
+    <link href="{% static 'styles/styles.css' %}" rel="stylesheet">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'course_list' %}">{% trans 'E-learning' %}</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>{% trans "Browse" %}</strong> <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'course_list' %}">{% trans 'All courses' %}</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="{% url 'videos_list' %}">{% trans 'Videos' %}</a></li>
+                <li><a href="{% url 'calendar' %}">{% trans 'Calendar' %}</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-left" action="{% url 'search' %}" method="get" accept-charset="utf-8" role="search">
+            <div class="form-group">
+              <input type="search" class="form-control search-bar" name="q" placeholder="{% trans 'Search for a topic ' %}">
+              <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </div>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'course_list' %}">{% trans 'Learn' %}</a></li>
+            {% if user.is_authenticated and request.user.is_student %}
+                <li><a href="{% url 'student_quiz_list' %}">{% trans 'My Quizzes' %}</a></li>
+                <li><a href="{% url 'student_course_list' %}">{% trans 'My Courses' %}</a></li>
+            {% endif %}
+            {% if user.is_authenticated and request.user.is_teacher or request.user.is_staff %}
+                <li><a href="{% url 'manage_course_list' %}">{% trans 'Manage courses' %}</a></li>
+                <li><a href="{% url 'teacher_quiz_change_list' %}">{% trans 'Manage quizzes' %}</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle navbar-brand" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="{{ user|gravatar }}" alt="{{ user.username }}"> <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                  <li><a href="{% url 'student_recommendation_list' %}">{% trans 'My recommended courses' %}</a></li>
+                  <li><a href="{% url 'listes_events' %}">{% trans 'My events' %}</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="{% url 'edit' %}">{% trans 'My account' %}</a></li>
+                <li><a href="{% url 'logout' %}">{% trans 'Logout' %}</a></li>
+              </ul>
+            </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">{% trans 'Log in' %}</a></li>
+                <li><a href="{% url 'signup' %}">{% trans 'Sign up' %}</a></li>
+            {% endif %}
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div id="content" class="main">
+
+        {% if messages %}
+            <div class="container">
+                {% for message in messages %}
+                <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %} role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+
+        <!-- Notif offline -->
+        <div
+            class="notification"
+            id="notification"
+            aria-live="assertive"
+            aria-relevant="text"
+            hidden
+        ></div>
+
+    </div>
+
+    <div class="container">
+        <footer id="footer" class="footer">
+            <nav class="navbar">
+                {% get_flatpages as flatpages %}
+                <ul class="list-inline">
+                    {% for page in flatpages %}
+                        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                    {% endfor %}
+                    <li><a href="{% url 'contact_us' %}">{% trans 'Contact Us' %}</a></li>
+                    <li><a href="{% url 'post_list' %}">{% trans 'Blog' %}</a></li>
+                </ul>
+            </nav>
+        </footer>
+    </div>
+
+    <script src="{% static 'scripts/libs/jquery.min.js' %}"></script>
+    <script src="{% static 'scripts/main.min.js' %}"></script>
+    <script>
+    $(document).ready(function() {
+        {% block domready %}
+        {% endblock %}
+    });
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("{% url 'sw.js' %}", { scope: '/static/' }).then(function(res) {
+            console.log("sw installed !" + res.scope);
+        }).catch(function(error) {
+            console.log("sw failed" + error);
+        });
+    }
+    </script>
+</body>
+</html>
